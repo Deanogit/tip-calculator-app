@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${spaceMono.className} antialiased grid justify-center items-center min-h-[100vh]`}
+        className={`${spaceMono.className} antialiased grid place-content-center min-h-[100vh]`}
       >
         {children}
       </body>
