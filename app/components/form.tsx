@@ -1,9 +1,19 @@
+'use client';
+
 import Image from 'next/image';
 
-export default function Form() {
+export default function Form({
+  bill,
+  setBill,
+  tip,
+  setTip,
+  people,
+  setPeople,
+}: any) {
+  const tipOptions = [5, 10, 15, 25, 50];
   return (
     <>
-      <form className="lg:pt-3">
+      <form className="lg:pt-3" onSubmit={(e) => e.preventDefault()}>
         <label
           htmlFor="amount"
           className="preset-5 text-[var(--cust-grey-500)]"
@@ -18,41 +28,53 @@ export default function Form() {
             alt=""
             className="absolute top-2 md:top-4 left-4 translate-y-1/8 z-10"
           />
+          {/** Listen out for input change - setBill */}
           <input
+            id="bill"
             type="text"
             placeholder="0"
-            className="cursor-pointer bg-[var(--cust-grey-50)] w-full preset-3 px-4 mb-8 rounded-[5px] text-right text-[var(--cust-green-900)] relative md:py-2 lg:mb-10"
+            className="cursor-pointer bg-[var(--cust-grey-50)] w-full preset-3 px-4 mb-8 rounded-[5px] text-right text-[var(--cust-green-900)] relative md:py-2 lg:mb-10 focus:outline-[var(--cust-green-400)]"
             required
+            onChange={(e) => setBill(Number(e.currentTarget.value) * 100)}
+            value={bill ? bill / 100 : ''}
           />
         </div>
         <div className="text-[var(--cust-grey-500)]">
+          <h2 className="preset-5 mb-2">Select tip %</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8 lg:mb-10">
-            <div className="col-span-2 md:col-span-3">
-              <h2 className="preset-5">Select tip %</h2>
-            </div>
-            <button className="bg-[var(--cust-green-900)] rounded-[5px] text-white preset-3 hover:bg-[var(--cust-green-400)] cursor-pointer hover:text-[var(--cust-green-900)] md:py-2">
-              5%
-            </button>
-            <button className="bg-[var(--cust-green-900)] rounded-[5px] text-white preset-3 hover:bg-[var(--cust-green-400)] cursor-pointer hover:text-[var(--cust-green-900)] md:py-2">
-              10%
-            </button>
-            <button className="bg-[var(--cust-green-900)] rounded-[5px] text-white preset-3 hover:bg-[var(--cust-green-400)] cursor-pointer hover:text-[var(--cust-green-900)] md:py-2">
-              15%
-            </button>
-            <button className="bg-[var(--cust-green-900)] rounded-[5px] text-white preset-3 hover:bg-[var(--cust-green-400)] cursor-pointer hover:text-[var(--cust-green-900)] md:py-2">
-              25%
-            </button>
-            <button className="bg-[var(--cust-green-900)] rounded-[5px] text-white preset-3 hover:bg-[var(--cust-green-400)] cursor-pointer hover:text-[var(--cust-green-900)] md:py-2">
-              50%
-            </button>
+            {tipOptions.map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setTip(t)}
+                className={` rounded-[5px] text-white preset-3 hover:bg-[var(--cust-green-400)] cursor-pointer hover:text-[var(--cust-green-900)] md:py-2 ${
+                  tip === t
+                    ? 'bg-[var(--cust-green-400)]'
+                    : 'bg-[var(--cust-green-900)]'
+                }`}
+              >
+                {t}%
+              </button>
+            ))}
+
             <input
               type="text"
-              className="bg-[var(--cust-grey-50)] rounded-[5px] text-[var(--cust-grey-550)] preset-3 text-center placeholder:text-[var(--cust-grey-550)] md:py-2 "
               placeholder="Custom"
+              className="bg-[var(--cust-grey-50)] rounded-[5px] text-[var(--cust-grey-550)] preset-3 text-center placeholder:text-[var(--cust-grey-550)] md:py-2 "
             />
           </div>
           <label htmlFor="people">
-            <h3 className="mb-2">Number of People</h3>
+            <h3 className="mb-2 flex">
+              Number of People
+              <span
+                className={`ml-auto text-[var(--cust-orange-400)] ${
+                  bill && people === 0 ? 'block' : 'hidden'
+                }`}
+                id="zero"
+              >
+                Can&apos;t be zero
+              </span>
+            </h3>
           </label>
           <div className="relative flex items-center">
             <Image
@@ -62,13 +84,21 @@ export default function Form() {
               alt=""
               className="absolute top-2 md:top-4 left-4 translate-y-1/8"
             />
+            {/** if bill && empty => outline-red! Can't be zero *
+             * else => onChange setPeople */}
             <input
               type="text"
               name="people"
               id="people"
               placeholder="0"
-              className="cursor-pointer bg-[var(--cust-grey-50)] w-full preset-3 px-4 mb-8 rounded-[5px] text-right text-[var(--cust-green-900)] md:py-2"
+              className={`cursor-pointer bg-[var(--cust-grey-50)] w-full preset-3 px-4 mb-8 rounded-[5px] text-right text-[var(--cust-green-900)] md:py-2 ${
+                bill > 0 && people === 0
+                  ? 'focus:outline-[var(--cust-orange-400)]'
+                  : 'focus:outline-[var(--cust-green-400)]'
+              }`}
               required
+              onChange={(e) => setPeople(Number(e.currentTarget.value))}
+              value={people ? people : ''}
             />
           </div>
         </div>
