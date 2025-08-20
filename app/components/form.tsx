@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 
 import Image from 'next/image';
 
@@ -19,6 +20,24 @@ export default function Form({
   people,
   setPeople,
 }: FormProps) {
+  const [billError, setBillError] = useState('');
+
+  const handleBillChange = (value: string) => {
+    if (value === '') {
+      setBill('');
+      setBillError('');
+      return;
+    }
+
+    if (!/^\d*\?\d*$/.test(value)) {
+      setBillError('Please enter a valid number');
+      return;
+    }
+
+    setBill(Number(value));
+    setBillError('');
+  };
+
   const tipOptions = [5, 10, 15, 25, 50];
   return (
     <>
@@ -29,30 +48,37 @@ export default function Form({
         >
           <h1 className="mb-2">Bill</h1>
         </label>
-        <div className="flex items-center relative">
-          <Image
-            src="/images/icon-dollar.svg"
-            width={11}
-            height={17}
-            alt=""
-            className="absolute top-2 md:top-4 left-4 translate-y-1/8 z-10"
-          />
-          {/** Listen out for input change - setBill */}
-          <input
-            id="bill"
-            type="number"
-            value={bill}
-            placeholder="0"
-            className="cursor-pointer bg-[var(--cust-grey-50)] w-full preset-3 px-4 mb-8 rounded-[5px] text-right text-[var(--cust-green-900)] relative md:py-2 lg:mb-10 focus:outline-[var(--cust-green-400)]"
-            required
-            onChange={(e) =>
-              setBill(
-                e.currentTarget.value === ''
-                  ? ''
-                  : Number(e.currentTarget.value)
-              )
-            }
-          />
+        <div className="flex flex-col">
+          <div className="flex items-center relative">
+            <Image
+              src="/images/icon-dollar.svg"
+              width={11}
+              height={17}
+              alt=""
+              className="absolute top-2 md:top-4 left-4 translate-y-1/8 z-10"
+            />
+            {/** Listen out for input change - setBill */}
+            <input
+              id="bill"
+              type="number"
+              value={bill}
+              placeholder="0"
+              className="cursor-pointer bg-[var(--cust-grey-50)] w-full preset-3 px-4 mb-8 rounded-[5px] text-right text-[var(--cust-green-900)] relative md:py-2 lg:mb-10 focus:outline-[var(--cust-green-400)]"
+              required
+              onChange={(e) =>
+                setBill(
+                  e.currentTarget.value === ''
+                    ? ''
+                    : Number(e.currentTarget.value)
+                )
+              }
+            />
+          </div>
+          {billError && (
+            <span className="text-[var(--cust-orange-400)] text-sm">
+              {billError}
+            </span>
+          )}
         </div>
         <div className="text-[var(--cust-grey-500)]">
           <h2 className="preset-5 mb-2">Select tip %</h2>
