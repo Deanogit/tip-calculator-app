@@ -65,13 +65,7 @@ export default function Form({
               placeholder="0"
               className="cursor-pointer bg-[var(--cust-grey-50)] w-full preset-3 px-4 mb-8 rounded-[5px] text-right text-[var(--cust-green-900)] relative md:py-2 lg:mb-10 focus:outline-[var(--cust-green-400)]"
               required
-              onChange={(e) =>
-                setBill(
-                  e.currentTarget.value === ''
-                    ? ''
-                    : Number(e.currentTarget.value)
-                )
-              }
+              onChange={(e) => handleBillChange(e.target.value)}
             />
           </div>
           {billError && (
