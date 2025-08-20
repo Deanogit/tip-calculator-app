@@ -4,8 +4,10 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 type FormProps = {
-  bill: number | '';
-  setBill: (bill: number | '') => void;
+  bill: string;
+  setBill: React.Dispatch<React.SetStateAction<string>>;
+  billError: string;
+  setBillError: React.Dispatch<React.SetStateAction<string>>;
   tip: number;
   setTip: (tip: number) => void;
   people: number | '';
@@ -22,7 +24,9 @@ export default function Form({
 }: FormProps) {
   const [billError, setBillError] = useState('');
 
-  const handleBillChange = (value: string) => {
+  const handleBillChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
     if (value === '') {
       setBill('');
       setBillError('');
@@ -34,7 +38,7 @@ export default function Form({
       return;
     }
 
-    setBill(Number(value));
+    setBill(value);
     setBillError('');
   };
 
@@ -60,12 +64,12 @@ export default function Form({
             {/** Listen out for input change - setBill */}
             <input
               id="bill"
-              type="number"
+              type="text"
               value={bill}
               placeholder="0"
               className="cursor-pointer bg-[var(--cust-grey-50)] w-full preset-3 px-4 mb-8 rounded-[5px] text-right text-[var(--cust-green-900)] relative md:py-2 lg:mb-10 focus:outline-[var(--cust-green-400)]"
               required
-              onChange={(e) => handleBillChange(e.target.value)}
+              onChange={handleBillChange}
             />
           </div>
           {billError && (

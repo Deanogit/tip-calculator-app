@@ -1,16 +1,18 @@
 'use client';
 
 type ResultProps = {
-  bill: number | '';
+  bill: string;
   people: number | '';
   tip: number;
   onReset: () => void;
 };
 
 export default function Result({ bill, people, tip, onReset }: ResultProps) {
-  const tipPerPerson = bill && people ? (bill * (tip / 100)) / people : 0;
+  const billNum = Number(bill);
+  const tipPerPerson = billNum && people ? (billNum * (tip / 100)) / people : 0;
 
-  const totalPerPerson = bill && people ? bill / people + tipPerPerson : 0;
+  const totalPerPerson =
+    billNum && people ? billNum / people + tipPerPerson : 0;
 
   return (
     <>
