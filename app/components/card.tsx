@@ -5,18 +5,14 @@ import Result from './result';
 import { useState } from 'react';
 
 export default function Card() {
-  const [bill, setBill] = useState<string>('');
+  const [bill, setBill] = useState<number | ''>('');
   const [people, setPeople] = useState<number | ''>('');
   const [tip, setTip] = useState<number>(15);
-  const [billError, setBillError] = useState<string>(''); // error message
-  //   const [peopleError, setPeopleError] = useState<string>(''); // error message
 
   const resetAll = () => {
     setBill('');
     setPeople('');
     setTip(15);
-    setBillError('');
-    // setPeopleError('');
   };
 
   return (
@@ -25,12 +21,8 @@ export default function Card() {
         <Form
           bill={bill}
           setBill={setBill}
-          billError={billError}
-          setBillError={setBillError}
           people={people}
           setPeople={setPeople}
-          //   peopleError={peopleError}
-          //   setPeopleError={setPeopleError}
           tip={tip}
           setTip={setTip}
         />
