@@ -57,11 +57,12 @@ export default function Form({
               </button>
             ))}
 
-            <input
-              type="text"
-              placeholder="Custom"
-              className="bg-[var(--cust-grey-50)] rounded-[5px] text-[var(--cust-grey-550)] preset-3 text-center placeholder:text-[var(--cust-grey-550)] md:py-2 "
-            />
+            <button
+              type="button"
+              className="bg-[var(--cust-grey-50)] rounded-[5px] text-[var(--cust-grey-550)] preset-3 text-center placeholder:text-[var(--cust-grey-550)] md:py-2 cursor-pointer hover:bg-[var(--cust-green-400)] hover:text-[var(--cust-green-900)]"
+            >
+              Custom
+            </button>
           </div>
           <label htmlFor="people">
             <h3 className="mb-2 flex">
