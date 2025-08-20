@@ -2,6 +2,15 @@
 
 import Image from 'next/image';
 
+type FormProps = {
+  bill: number | '';
+  setBill: (bill: number | '') => void;
+  tip: number;
+  setTip: (tip: number) => void;
+  people: number | '';
+  setPeople: (people: number | '') => void;
+};
+
 export default function Form({
   bill,
   setBill,
@@ -9,7 +18,7 @@ export default function Form({
   setTip,
   people,
   setPeople,
-}: any) {
+}: FormProps) {
   const tipOptions = [5, 10, 15, 25, 50];
   return (
     <>
@@ -31,12 +40,18 @@ export default function Form({
           {/** Listen out for input change - setBill */}
           <input
             id="bill"
-            type="text"
+            type="number"
+            value={bill}
             placeholder="0"
             className="cursor-pointer bg-[var(--cust-grey-50)] w-full preset-3 px-4 mb-8 rounded-[5px] text-right text-[var(--cust-green-900)] relative md:py-2 lg:mb-10 focus:outline-[var(--cust-green-400)]"
             required
-            onChange={(e) => setBill(Number(e.currentTarget.value) * 100)}
-            value={bill ? bill / 100 : ''}
+            onChange={(e) =>
+              setBill(
+                e.currentTarget.value === ''
+                  ? ''
+                  : Number(e.currentTarget.value)
+              )
+            }
           />
         </div>
         <div className="text-[var(--cust-grey-500)]">
@@ -88,18 +103,24 @@ export default function Form({
             {/** if bill && empty => outline-red! Can't be zero *
              * else => onChange setPeople */}
             <input
-              type="text"
+              type="number"
               name="people"
               id="people"
               placeholder="0"
+              value={people}
               className={`cursor-pointer bg-[var(--cust-grey-50)] w-full preset-3 px-4 mb-8 rounded-[5px] text-right text-[var(--cust-green-900)] md:py-2 ${
-                bill > 0 && people === 0
+                bill !== '' && people === 0
                   ? 'focus:outline-[var(--cust-orange-400)]'
                   : 'focus:outline-[var(--cust-green-400)]'
               }`}
               required
-              onChange={(e) => setPeople(Number(e.currentTarget.value))}
-              value={people ? people : ''}
+              onChange={(e) =>
+                setPeople(
+                  e.currentTarget.value === ''
+                    ? ''
+                    : Math.max(0, Number(e.currentTarget.value))
+                )
+              }
             />
           </div>
         </div>
